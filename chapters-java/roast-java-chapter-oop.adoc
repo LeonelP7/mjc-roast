@@ -3,13 +3,13 @@
 .What are the main programming paradigms?
 [%collapsible]
 ====
-* Imperative programming
+* Imperative programming: This is a style where you provide a sequence of commands for the computer to follow
 ** procedural programming
 ** structured programming
 ** object-oriented programming(OOP)
-* Declarative programming
-* Functional programming
-* Reactive Programming
+* Declarative programming: A style that focuses on "what" the program should accomplish rather than "how"
+* Functional programming: A paradigm that treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data
+* Reactive Programming: A paradigm oriented around data streams and the propagation of change
 ====
 
 .What does abbreviation `OOP` mean?
@@ -21,7 +21,18 @@ Object Oriented Programming.
 .What are the advantages and disadvantages of an object-oriented programming approach??
 [%collapsible]
 ====
-Answer
+Advantages of OOP
+The primary benefit of OOP is code reuse, as all the fundamental principles work together to facilitate the efficient use of existing code. Specific advantages include:
+* Implementation Hiding (Encapsulation): By wrapping data and methods into a single unit, OOP protects an object's internal state from outside interference.
+* Extensibility (Inheritance): It allows for the creation of new entities based on existing ones, enabling developers to build upon existing logic without starting from scratch.
+* Flexibility (Polymorphism): It provides the ability to have different forms for the same entity, allowing for more generic and flexible code.
+* Effective Modeling (Abstraction): OOP allows for describing complex entities through a set of common characteristics, defining a clear "contract" for how to interact with an object without needing to understand its internal complexity.
+
+Trade offs
+* Performance Overhead: Abstract classes and interfaces are slightly slower than concrete implementations because the system must perform a search to locate the correct overridden method at runtime.
+* Slower Memory Access: Because OOP relies heavily on objects, data is primarily stored in the Heap, which has slower access, allocation, and deallocation speeds compared to the Stack.
+* Thread-Safety Complexity: Unlike Stack memory (which is private to a thread), the Heap is shared among all threads. This means objects are not thread-safe by default and require explicit synchronization, which can increase the complexity of the code and potentially slow down the application.
+* Memory Fragmentation: Dynamic allocation on the heap can lead to fragmentation, which requires a Garbage Collection cycle to manage. This process can cause "stop-the-world" events where the application temporarily pauses
 ====
 
 .What are the basic principles of OOP??
@@ -29,35 +40,11 @@ Answer
 ====
 * `Incapsulation` is implementation hiding.
 * `Inheritance` is the creation of a new entity based on an existing one.
-* `Polymorphism` is the ability to have different forms for the same entity.
-* `Abstraction` is a set of common characteristics.
+* `Polymorphism` is the ability to have different behaviors for different forms of the same entity. Is the ability of a subclass to provide a specific implementation of a method that is already defined in its parent class
+* `Abstraction` is a set of common characteristics used to describe an entity. It defines the state, behavior, and the rules for interacting with an entity (often called a contract) without revealing the underlying implementation details.
 * `Reuse` - everything listed above works for code reuse.
 
 IMPORTANT: This is the only correct order of OOP paradigms, since each subsequent one uses the previous ones.
-====
-
-.What is `Incapsulation`?
-[%collapsible]
-====
-Answer
-====
-
-.What is `Inheritance`?
-[%collapsible]
-====
-Answer
-====
-
-.What is `Polymorphism`?
-[%collapsible]
-====
-Answer
-====
-
-.What is `Abstraction`?
-[%collapsible]
-====
-Answer
 ====
 
 .Tell us about the basic concepts of OOP: `class`, `object`, `interface`.?
@@ -70,6 +57,8 @@ From the point of view of the structure of the program, a class is a complex dat
 * An `object` (instance) is a separate representative of a class with a specific state and behavior that is completely determined by the class. Each object has specific attribute values and methods that operate on those values based on the rules defined in the class.
 
 * An `interface` is a collection of class methods available for use. The interface of a class will be a set of all its public methods together with a set of public attributes. Basically, an interface specifies a class, clearly defining all possible actions on it.
+
+In summary, the class defines the structure, the object is the actual entity living in memory, and the interface defines the rules for how external code can interact with that entity
 ====
 
 .What do the expressions `IS` and `HAS` mean in terms of OOP principles??
@@ -83,8 +72,8 @@ From the point of view of the structure of the program, a class is a complex dat
 [%collapsible]
 ====
 * `Association` refers to the relationship between objects. Composition and aggregation are special cases of the `part-whole` association.
-* `Aggregation` assumes that objects are connected in a `part-of` relationship.
-* `Composition` is a stricter variant of aggregation. In addition to the `part-of` requirement, the condition is imposed that a `part` instance can be included in only one whole (or not included anywhere), while in the case of aggregation, a `part` instance can be included in several integers.
+* `Aggregation` assumes that objects are connected in a `part-of` relationship. the parts can exist independently of the whole (like a Department and its Professors).
+* `Composition` the parts' lifecycle is strictly managed by the whole; if the whole is destroyed, the parts are destroyed too (like a House and its Rooms).
 ====
 
 .What are `static` and `dynamic` linking??
@@ -140,6 +129,8 @@ Yes
 .Name `Object` methods?
 [%collapsible]
 ====
+Are those defined in the root class java.lang.Object. Since every class inherits from Object, these methods are available in any Java object
+
 * toString()
 * equals()
 * hashCode()
@@ -154,6 +145,11 @@ Yes
 [%collapsible]
 ====
 Discuss GC, destructor, finalize, Runtime.getRuntime().gc(), null references.
+
+In Java, it is not possible to explicitly destroy an object manually.
+Instead, Java uses the Garbage Collection (GC), which identifies and removes objects from the heap once they are no longer referenced by the application.
+
+To make an object eligible for destruction, you should mark its reference as null, which signals to the Garbage Collector that the memory can be reclaimed. Although you can request a Garbage Collection cycle by calling Runtime.getRuntime().gc(), there is no guarantee that the JVM will execute the collection immediately
 ====
 
 .Difference between String/StringBuilder/StringBuffer(**)?
@@ -164,10 +160,13 @@ Discuss GC, destructor, finalize, Runtime.getRuntime().gc(), null references.
 * `StringBuffer` — the same as StringBuilder, thread safe
 ====
 
-* What is a `class`?
-* What is an `object`?
+
 * What are the characteristics of an object?
-* What is a `constructor` and its role?
+.What is a `constructor` and its role?
+[%collapsible]
+===
+
+===
 * Can we have a private constructor? Why and when?
 * Why all the instance variables have default values in Java?
 * What are the accessor and mutator methods in Java, and what is their significance?
