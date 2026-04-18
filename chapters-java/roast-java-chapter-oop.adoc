@@ -161,16 +161,50 @@ To make an object eligible for destruction, you should mark its reference as nul
 ====
 
 
-* What are the characteristics of an object?
+.What are the characteristics of an object?
+[%collapsible]
+====
+* State and Behavior: An object's state is defined by its specific attribute values, while its behavior consists of the methods that operate on those values based on the rules established in its class.
+* Memory Location: When an object is created (typically using the new operator), its actual space is allocated in the Heap memory. While the object itself lives in the Heap, a reference to that space is stored in the Stack.
+* Visibility and Thread Safety: Because the Heap is a shared area of memory, objects are visible to all threads. Consequently, they are not thread-safe by default and require proper synchronization of code if they are shared.
+====
+
+
 .What is a `constructor` and its role?
 [%collapsible]
-===
+====
+Is a special type of method used to initialize a newly created object. Its primary role is to set the initial state of an object and ensure that it is ready for use immediately after its creation.
 
-===
-* Can we have a private constructor? Why and when?
-* Why all the instance variables have default values in Java?
-* What are the accessor and mutator methods in Java, and what is their significance?
+Is essential for defining the initial values of an object's attributes.
+
+* *Abstract classes:* Cannot be instantiated directly, it stil contain constructors. These are used to initializate the superclass when a concrete subclass is created.
+====
+
+.Can we have a private constructor? Why and when?
+[%collapsible]
+====
+Yes we can have a private contructor.
+They are used when you want to control object creation, maintain strict instance limits like in enums or classes that are singleton.
+====
+
+
+.Why all the instance variables have default values in Java?
+[%collapsible]
+====
+In Java, instance variables are assigned default values (such as 0 for numeric types, false for booleans, and null for object references) to ensure program safety and predictability. Because these variables are stored on the Heap, Java automatically initializes them so that every object begins its life in a known, valid state. This prevents the system from reading "garbage" data left over in memory
+====
+
+.What are the accessor and mutator methods in Java, and what is their significance?
+[%collapsible]
+====
+* Accessor methods (Getters): These methods are used to read or retirieve the current value of an objec's private attribute
+* Mutator Methods (Setters): Are used to modify or update the value of an object's attribute, changing its internal state
+
+They are the primary mechanism for Encapsulation. By using mutator methods instead of allowing direct access to variables, a developer can add logic (like validaiton) to ensure that the object's state remains valid.
+====
+
 * What are the different ways to create objects?
+
 * How to create an object using the newInstance method?
 * How to create a copy of an existing object?
 * How to use the clone method to create a new object?
@@ -178,39 +212,150 @@ To make an object eligible for destruction, you should mark its reference as nul
 * How to serialize an object?
 * What is `de-serialization`, and how it generates a new object?
 * What are the different access specifiers present in Java? Can you explain their difference?
-* Can we apply a private modifier to class?
-* What is `association` in Java?
-* What is `composition` in Java?
-* What is the difference between composition and aggregation?
-* What is difference between is-a-kind relation and has-a-kind relation in Java?
-* Can you explain when to use is-a-kind relationship and when to use has-a-kind relationship in Java?
-* How do you explain the term `coupling`?
-* How do you explain the term `cohesion`?
-* What do you mean by `loose coupling`?
-* What do you mean by `tight coupling`?
-* What is `abstract class`?
+
+.Can we apply a private modifier to class?
+[%collapsible]
+====
+The `private` modifier can be applied to a nested class (a class defined inside another class). A private nested class is only accesible within the scope of its enclosing outer class
+
+It cannot be applied to a top-level class, because if a top-level class were private no other class could see or used, making it useless
+====
+
+.Can you explain when to use is-a-kind relationship and when to use has-a-kind relationship in Java?
+[%collapsible]
+====
+* Is-a relationship implies inheritance. This is used when creating a new entity based on an existing one. It represents a strict hierarchy where the child entity possesses all the characteristics of the parent entity plus its own specific features
+
+* Has-a relationship represents an association between objects, which is often described as a part-whole relationship
+====
+
+.How do you explain the term `coupling`?
+[%collapsible]
+====
+Its the degree of dependecy between different classes or modules. It measures how much one unit of code relies on the internal details of another to function correctly
+====
+
+.How do you explain the term `cohesion`?
+[%collapsible]
+====
+Is the measure of how focused the responsabilities of a single class or module are. A "highly cohesive" class is one where all its methods and attributes are closely related to a single purpose
+====
+
+.What do you mean by `loose coupling`?
+[%collapsible]
+====
+This is a design goal where the classes are minimally dependent on one another. This is often achieved by writing code against interfaces (contracts), rather that concrete implementations, which allows you to change one part of the system without breaking others
+====
+
+.What do you mean by `tight coupling`?
+[%collapsible]
+====
+This occurs when classes are highly dependent on each other's specific implementation details. In a tighly coupled system, a change to one class frequently requires a "ripple effect" of changes across many other related classes, making the code harder to reuse and maintain
+====
+
+.What is `abstract class`?
+[%collapsible]
+====
+Is a class designed to represent a set of common characteristics and behaviors for an entity, serving as a base for other classes to extend
+====
+
+.What is evolution?
+[%collapsible]
+====
+Refers to the ability to update and expand a codebase over time without breaking existing functionality
+====
+
+.What is an entity?
+[%collapsible]
+====
+Is the conceptual thing or real-world object that you are trying to represent in your code
+====
+
 * Can the abstract class contain constructors?
 * Why abstract classes provide constructors even though they are not instantiated?
 * What are concrete methods and abstract methods?
-* Can we declare all the methods of abstract class as a concrete method?
-* Can we have abstract methods as private?
-* Can we declare abstract methods as static?
+
+.Can we declare all the methods of abstract class as a concrete method?
+[%collapsible]
+====
+Yes, it is possible. An abstract clas is often used when you wnat to provide a base implementation for code reuse and evolution, even if you don't have any abstract methods to declare yet
+====
+
+.Can we have abstract methods as private?
+[%collapsible]
+====
+No, because private methods are considered final by default. Since the purpose of an abstract method is to be overriden by a subclass to provide an implementation, and final methods cannot be overriden, it would be a contradiction.
+====
+
+.Can we declare abstract methods as static?
+[%collapsible]
+====
+No, abstract methods rely on dynamic binding, wich is the process of determining which method body to invoke at runtime based on the actual type of the object.
+
+In contrast static methods use static binding, where the method call is attached to the body by the compiler before the program even starts.
+
+Because abstract methods must be implemented by subclasses and resolved at runtime, they cannot be static.
+
+These constraints ensure that the contract defined by the abstract class can be propertly fulfilled by its descendants.
+====
 
 .What does it mean `final` in Java?
 [%collapsible]
 ====
-* The keywrod `final` can be applied to class, method, variables(inc. method parameters).
+* The keyword `final` can be applied to class, method, variables(inc. method parameters).
 * `final class` = no subclasses, inheritance is forbidden. It is useful to create unmodifiable objects.
+
+Its primary use is to  restrict further modification or inheritance, which is essential for creating stable code and unmodifiable objects.
 ====
 
-* Can we declare an abstract class as final?
-* What is a final class, and why one need to declare it?
-* What is a final method?
-* What is use of the final keyword?
-* Can we make the reference as final?
-* What does it mean?
+.Can we declare an abstract class as final?
+[%collapsible]
+====
+It is not possible, because abstract class is designed specifically to be extended by other classes to provide, implementation, whereas a final class forbids inheritance.
+====
+
+.What is a final class, and why one need to declare it?
+[%collapsible]
+====
+A final class is a class that cannot have subclasses.
+
+It is used when a developer wants to ensure that the integrity and security of a class by preventing other developers from overriding its behavior through inheritance. It is a requirement for creating immutable classes to ensure their state cannot be altered by a descendant class.
+====
+
+.What is a final method?
+[%collapsible]
+====
+Is a method that cannot be overriden by descendant types
+====
+
+.Can we make the reference as final?
+[%collapsible]
+====
+Yes, the final modifier can be applied to variables, wich includes reference variables.
+====
+
+.What is the difference between variables and reference variables?
+[%collapsible]
+====
+* Variables (primitive types): These variables store the actual value of the data.
+* Reference variables: These variables do not store the actual object data. Instead they store a reference (memory address) that points to the lcoation in memory where the object is stored.
+====
+
+.What does it mean?
+[%collapsible]
+====
+When a reference is declared as final, it means that once the variable has been assigned to an object, it cannot be reassigned to point to a different object or memory location.
+
+It is important to distiguish between the reference and the object itself. While a final reference cannot point to a new object, the internal state of the object it points to can still be changed unless the class itself is designed to be immutable.
+====
+
 * Can interfaces have a constructor? How it is different than the abstract classes?
-* Can we declare an interface with the abstract keyword?
+
+.Can we declare an interface with the abstract keyword?
+[%collapsible]
+====
+Yes, you can declare an interface using the abstract keyword, but it is redundant. All interfaces in java are implicitly abstract, so the compiler treats them the same way whether the keyword is present or not.
+====
 
 .What is the default method in an interface?
 [%collapsible]
@@ -219,31 +364,141 @@ It is implemented method in interfaces for backward compatibility.
 ====
 
 * Can an interface have more than one method as default implemented methods?
-* What is polymorphic reference?
-* What is significance of a polymorphic reference, and how would you achieve the same?
-* If Object is a cosmic superclass, what is wrong if you refer every object by it?
+
+.What is polymorphic reference?
+[%collapsible]
+====
+Its a reference variable that can point to objects of different types at different times, specifically those that share an inheritance or implementation relationship.
+
+*How is achieved*
+* Supertype reference, subtype object: You achieve a polymorphic reference by declaring a variable of a subtype, and assigning it an object of a subtype
+
+It allows an application to evolve more easily.
+
+This is why is recommended to write code againt a collection interface (like list) rather a concrete implementation (like ArrayList). It allows to swap the underlying implementation later without breaking the rest of the code
+====
+
+.If Object is a cosmic superclass, what is wrong if you refer every object by it?
+[%collapsible]
+====
+* Loss of specific behavior: A class is a way of describing an entity by defining its specific state and behavior. If you refer an object as a generic `Object`, you can only access the methods defined in the `java.lang.Object` class, such as toString(), equals(), and hashCode(). You lose access to the unique methods and attributes that define the actual entity you are working with.
+
+* Broken "contract": A class is a contract that stablishes the rules for interacting with an entity. By using me most general reference, you are essentially ignoring that contract
+
+In summary, referring to every object as its cosmic superclass discards the specific description and rules, that make that object useful in your application
+====
+
 * Can we extend more than one class?
 * How do you achieve multiple inheritance in Java?
+
 * If your class implements two interfaces and both the interfaces declare similar methods, which method will be invoked? Is it permitted?
-* What is use of a static variable?
-* What is use of a static method?
-* Can we use a non-static method to process static variables?
-* Can we use a static method to process instance variables?
-* Can we declare static and instance variables with same name?
-* Can I apply static anywhere apart from variables?
-* What is the use of this keyword?
-* Explain the significance of the super keyword
-* Why the super keyword must be located as the first line o the constructor?
+
+.What is use of a static variable?
+[%collapsible]
+====
+Are variables that are shared across all instances of a class, they are used to store data that should be common to every object of that class
+====
+
+.What is use of a static method?
+[%collapsible]
+====
+A static method is used for behaviors that belong to the class itself rather than a specific object. These methods use static binding.
+====
+
+.Can we use a non-static method to process static variables?
+[%collapsible]
+====
+Yes, a non-static (instance) method can process static variables, because static variables.
+====
+
+.Can we use a static method to process instance variables?
+[%collapsible]
+====
+No, a static method cannot directly process instance variables. Static methods do not have a mechanism to determine the "actual type of the object at runtime" which is required to access object-specific data.
+====
+
+.Can we declare static and instance variables with same name?
+[%collapsible]
+====
+No, this would result in a compilation error because it creates ambiguity for the compiler
+====
+
+.Can I apply static anywhere apart from variables?
+[%collapsible]
+====
+Can be applied to methods, static initializer blocks, and imports
+====
+
+.What is the use of `static` keyword?
+[%collapsible]
+====
+Is a modifier used to create members (variables, methods and blocks) that belong to the class itself rather than any specific instance of that class.
+
+* Static variables: All objects of a class share the same static variables. If one object modifies a static variable, the change is visible to all other instances of that class.
+** They are stored in a specialized memory area called the metaspace (or Method area). This differs from instance variables which are stored in the Heap alongside their respective objects.
+
+* Static Initializer blocks: These blocks are used to initializate static variables or perform one-time setup tasks when the class is first loaded.
+
+* Application entry point: It must be static so the JVM can invoke it without needing to instantiate the class first.
+====
+
+.Explain the use of static import
+[%collapsible]
+====
+This feature allows you to access static members (like constants or methods) from another class without qualifying them with the class name, which can make the code more readable
+====
+
+
+.What is the use of this keyword?
+[%collapsible]
+====
+Is a reference variable in Java, that refers to the current object instance. It is commonly used to distinguish between instance variables and parameters with the same name or to pass the current object as an argument to other methods
+====
+
+.Explain the significance of the super keyword
+[%collapsible]
+====
+Is used to interact with the immediate parent class (superclas)
+
+* Constructor invocation: It is used to call the constructor of the superclass to initialize the state of the parent entity (this must be in the first line)
+====
+
+.Why the super keyword must be located as the first line o the constructor?
+[%collapsible]
+====
+The `super` keyword must be located on the first line of the constructor to ensure that the parent entity is fully initialized before the child class begins with its own initialization
+
+For a subclass to be a valid representative of that entity, the "existing" parent part of the object must be established first
+====
+
 * Do we have the destructors in Java?
 * Which methods are present in the Object class that can be overridden?
-* What is the `equals` method, and how is it used?
+
+.What is the `equals` method, and how is it used?
+[%collapsible]
+====
+Is used to define the logical equality between two objects.
+
+It determines if two separate representatives of a class possess the same "state" or attribute values as defined by the class contract
+====
+
 * Which is a cosmic super class in Java?
-* What is the difference between an equal operator (= =) and equals method?
+
+.What is the difference between an equal operator (= =) and equals method?
+[%collapsible]
+====
+* Equal operator (==): This operator compares references. Because object references are stored in the stack while the actual object lives in the heap, using `==` checks if two refernece variables point to the exact same memory address
+
+* `equals()` Method: This compares the actual content or state of the objects
+====
+
 * What is a var argument? Where can it be used?
 * What are the different rules for declaring the var argument method?
 * What is the difference between using the var argument and array as a method argument?
 * What do you mean by method overloading?
+
 * Can we overload a static method?
+
 * What is method overriding?
 * What are rules of method overriding in Java?
 * Can we override the static method?
@@ -252,18 +507,113 @@ It is implemented method in interfaces for backward compatibility.
 * What is a `marker interface`?
 * What is use of a marker interface?
 * What is typecasting in Java, and which are the different types of typecasting available in Java?
-* What are the types of variables in Java? Also explain their scope.
-* What is an instance initializer block in Java?
-* What is difference between a static initializer block and instance initializer block in Java?
-* Can you explain the concept of wrapper classes in Java?
-* What is auto-boxing and auto un-boxing? In which scenario are they observed?
-* What is the use of an immutable object? Why we should create such an object?
-* What is an enum to you?
-* Can enum extend any other class?
-* Can we write an enum that implements an interface?
-* Can we declare constructors within enum?
-* Why the constructor of enum is kept as private?
-* Can we instantiate enum using the new keyword?
-* Explain some important methods of enum in Java
-* Explain the use of static import
+
+.What are the types of variables in Java? Also explain their scope.
+[%collapsible]
+====
+* Local Variables: These are variables declared within a method, including parameters and object references. They are stored in the Stack memory. Their scope is highly restricted; they are visible only to the owner thread, and the memory they occupy is automatically reclaimed as soon as the thread or method finishes its execution.
+
+* Instance Variables: These variables define the state and attributes of a separate representative (object) of a class. When an object is created using the new operator, instance variables are allocated space in the Heap memory. Their scope is broader than local variables, as the Heap is visible to all threads and shared among them.
+
+* Static Variables: Also known as class variables, these are shared by all objects of a class. They are loaded into a specialized memory area called Metaspace (or Method Area) only once, specifically when the class is first loaded by the classloader.
+
+* Reference Variables: These are a specific type of variable that stores the address (reference) of an object's location in the Heap rather than the object's data itself. While the object lives in the Heap, the reference variable typically resides in the Stack.
+====
+
+.What is an instance initializer block in Java?
+[%collapsible]
+====
+Is a block of code used to initialize the instace variables of a class. It is understood as a tool for defining the initial state of an object alongside the constructor
+====
+
+.Whats the difference between an inilializer block and a constructor?
+[%collapsible]
+====
+you use an initializer block for logic that must run for every instance (or the class itself) without exception, while you use a constructor to provide flexible, parameterized initialization for specific objects.
+====
+
+.What is difference between a static initializer block and instance initializer block in Java?
+[%collapsible]
+====
+* Static initializer block: Is called only once during the entire application lifecycle, specifically when the class is loaded into memory.
+
+* Instance initializer block: (much like a contructor) Is associated with the creation of individual objects
+====
+
+.Can you explain the concept of wrapper classes in Java?
+[%collapsible]
+====
+Refers to classes that encapsulate or "wrap" an entity to provide additional functionality, or allow that entity to be used in contexts where its original form is not supported
+
+* Auto-boxing and Auto-unboxing: Wrapper classes are the foundation for auto-boxing and auto-unboxing. These processes describe the automatic conversion between primitive types and their corresponding wrapper objects, which is a common scenario in Java development.
+
+* Use in Collections: A primary use case for these classes is enabling the use of collections with primitive types. Since the collection framework is designed to work with objects, wrapper classes allow primitive data to be stored and manipulated within collection structures like Lists or Sets.
+
+* Servlet Request and Response Wrappers: In the context of web applications, specific wrapper classes like ServletRequestWrapper (including HttpServletRequestWrapper) and ServletResponseWrapper exist. These allow developers to implement custom handlers by adding new methods or overriding existing ones to modify the behavior of standard request and response objects.
+====
+
+
+.What is auto-boxing and auto un-boxing? In which scenario are they observed?
+[%collapsible]
+====
+* Auto-boxing is the automatic conversion that the Java compiler makes between primitive types (such as int, double, or boolean) and their corresponding wrapper objects (such as Integer, Double, or Boolean).
+* Auto-unboxing is the reverse process, where a wrapper object is automatically converted back into its original primitive type. These mechanisms are built upon wrapper classes, which encapsulate primitives to provide object-oriented functionality, manage state, and allow them to be used where objects are required.
+====
+
+.What is the use of an immutable object? Why we should create such an object?
+[%collapsible]
+====
+The primary use is to ensure that its state cannot be changed once it has been created. There are several critical reasons to create them:
+
+* Thread safety: Since their state never changes multiple threads can access them simultaneously without the risk of unpredictable results or the need for complex sychronization
+
+* Collection integrity: The sources highligh that keys used for `Maps` and values used for `Sets` should be ideally be of an immutable type. This ensures that once an boject is placed in a hash-based collection, its hashcode remains constant, preventing the object from beign "lost" within the collection
+====
+
+.What is an enum to you?
+[%collapsible]
+====
+An enum is a special "class" that represents a group of constants (unchangeable variables)
+====
+
+.Can enum extend any other class?
+[%collapsible]
+====
+No. All enums in java implicitly extend `java.lang.Enum`. Since java does not support multiple inheritance for classes, an enum cannot extend any other class.
+====
+
+.Can we write an enum that implements an interface?
+[%collapsible]
+====
+Yes. enums can implement one or more interfaces, allowing them to provide specific implementations for interface methods.
+====
+
+.Can we declare constructors within enum?
+[%collapsible]
+====
+Yes. Enums can have constructors to initialize the state of each enum constant
+====
+
+.Why the constructor of enum is kept as private?
+[%collapsible]
+====
+To ensure that the enum cannot be instantiated from outside. This guarantees that only constants defined within the enum itself ever exist.
+====
+
+.Can we instantiate enum using the new keyword?
+[%collapsible]
+====
+No. Enums cannot be instantiated with `new`. The JVM handles the creation of enum instances when the enum is first referenced.
+====
+
+.Explain some important methods of enum in Java
+[%collapsible]
+====
+* `values()`: Return an array containing all the constants in the enum
+* `valueOf(String)`: Returns the enum constant with the specified name
+* `ordinal()`: Returns the position (index) of the constant in the enum declaration
+* `name()`: Returns the exact name of the constant as a String
+====
+
+
 * Which package is available as a default package for every Java class?
