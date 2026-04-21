@@ -18,7 +18,7 @@
 Object Oriented Programming.
 ====
 
-.What are the advantages and disadvantages of an object-oriented programming approach??
+.What are the advantages and disadvantages of an object-oriented programming approach?
 [%collapsible]
 ====
 Advantages of OOP
@@ -35,7 +35,7 @@ Trade offs
 * Memory Fragmentation: Dynamic allocation on the heap can lead to fragmentation, which requires a Garbage Collection cycle to manage. This process can cause "stop-the-world" events where the application temporarily pauses
 ====
 
-.What are the basic principles of OOP??
+.What are the basic principles of OOP?
 [%collapsible]
 ====
 * `Incapsulation` is implementation hiding.
@@ -47,7 +47,7 @@ Trade offs
 IMPORTANT: This is the only correct order of OOP paradigms, since each subsequent one uses the previous ones.
 ====
 
-.Tell us about the basic concepts of OOP: `class`, `object`, `interface`.?
+.Tell us about the basic concepts of OOP: `class`, `object`, `interface`?
 [%collapsible]
 ====
 * A `class` is a way of describing an entity, defining the state and behavior that depends on this state, as well as the rules for interacting with this entity (contract). +
@@ -61,14 +61,14 @@ From the point of view of the structure of the program, a class is a complex dat
 In summary, the class defines the structure, the object is the actual entity living in memory, and the interface defines the rules for how external code can interact with that entity
 ====
 
-.What do the expressions `IS` and `HAS` mean in terms of OOP principles??
+.What do the expressions `IS` and `HAS` mean in terms of OOP principles?
 [%collapsible]
 ====
 * `IS` implies inheritance.
 * `HAS` means an association (aggregation or composition).
 ====
 
-.What's the difference between composition and aggregation??
+.What is the difference between composition and aggregation?
 [%collapsible]
 ====
 * `Association` refers to the relationship between objects. Composition and aggregation are special cases of the `part-whole` association.
@@ -197,26 +197,129 @@ In Java, instance variables are assigned default values (such as 0 for numeric t
 .What are the accessor and mutator methods in Java, and what is their significance?
 [%collapsible]
 ====
-* Accessor methods (Getters): These methods are used to read or retirieve the current value of an objec's private attribute
+* Accessor methods (Getters): These methods are used to read or retrieve the current value of an object's private attribute
 * Mutator Methods (Setters): Are used to modify or update the value of an object's attribute, changing its internal state
 
-They are the primary mechanism for Encapsulation. By using mutator methods instead of allowing direct access to variables, a developer can add logic (like validaiton) to ensure that the object's state remains valid.
+They are the primary mechanism for Encapsulation. By using mutator methods instead of allowing direct access to variables, a developer can add logic (like validation) to ensure that the object's state remains valid.
 ====
 
-* What are the different ways to create objects?
-
-* How to create an object using the newInstance method?
-* How to create a copy of an existing object?
-* How to use the clone method to create a new object?
-* When your code will throw the CloneNotSupported Exception?
-* How to serialize an object?
-* What is `de-serialization`, and how it generates a new object?
-* What are the different access specifiers present in Java? Can you explain their difference?
-
-.Can we apply a private modifier to class?
+.What are the different ways to create objects?
 [%collapsible]
 ====
-The `private` modifier can be applied to a nested class (a class defined inside another class). A private nested class is only accesible within the scope of its enclosing outer class
+Objects can be created in the following ways:
+
+1. Using the `new` keyword with a constructor
+2. Using the `newInstance()` method (reflection)
+3. Using the `clone()` method on an existing object
+4. Using deserialization
+5. Using factory methods or builders
+====
+
+.How to create an object using the newInstance method?
+[%collapsible]
+====
+The `newInstance()` method is a reflective approach that creates an instance of a class using `Class.forName()` and `getDeclaredConstructor()`. This method requires the class to have a no-argument constructor and throws checked exceptions like `InstantiationException` and `IllegalAccessException`.
+====
+
+.How to create a copy of an existing object?
+[%collapsible]
+====
+You can create a copy of an existing object through:
+
+1. Shallow copy: Creating a new object and copying all primitive values and references (shallow copy copies references)
+2. Deep copy: Creating a new object with completely independent copies of all objects it references
+3. Using the `clone()` method if the class implements `Cloneable`
+4. Using copy constructors
+5. Using serialization and deserialization
+====
+
+.How to use the clone method to create a new object?
+[%collapsible]
+====
+The `clone()` method creates a shallow copy of an object. To use it:
+
+1. The class must implement the `Cloneable` interface (marker interface)
+2. Override the `clone()` method (inherited from `Object`)
+3. Call `super.clone()` within your override
+4. Handle the `CloneNotSupportedException` exception
+
+Note: `clone()` performs a shallow copy by default, so you may need to manually handle deep copying of mutable objects.
+====
+
+.When does your code throw the CloneNotSupportedException?
+[%collapsible]
+====
+`CloneNotSupportedException` is thrown when:
+
+1. A class does not implement the `Cloneable` interface but attempts to call `clone()`
+2. The `clone()` method explicitly throws the exception
+3. A class overrides `clone()` and throws the exception under certain conditions
+
+This exception is a checked exception, so it must be caught or declared in the method signature.
+====
+
+.How to serialize an object?
+[%collapsible]
+====
+To serialize an object:
+
+1. Implement the `Serializable` interface (marker interface)
+2. Use `ObjectOutputStream` to write the object to a stream
+3. All referenced objects must also be serializable
+
+Example:
+[source,java]
+----
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("file.dat"));
+oos.writeObject(myObject);
+oos.close();
+----
+====
+
+.What is `de-serialization`, and how does it generate a new object?
+[%collapsible]
+====
+De-serialization is the process of reconstructing an object from its serialized (binary) form. It:
+
+1. Reads the serialized bytes from a stream using `ObjectInputStream`
+2. Reconstructs the object in memory with the same state as when it was serialized
+3. Creates a new object instance without calling constructors or initializers (the object state is directly restored from the stream)
+
+Example:
+[source,java]
+----
+ObjectInputStream ois = new ObjectInputStream(new FileInputStream("file.dat"));
+Object myObject = ois.readObject();
+ois.close();
+----
+====
+
+.What are the different access specifiers present in Java? Can you explain their differences?
+[%collapsible]
+====
+Java has four access specifiers:
+
+1. `public`: Accessible from anywhere
+2. `protected`: Accessible within the same package and by subclasses in other packages
+3. Default (package-private): Accessible only within the same package
+4. `private`: Accessible only within the same class
+
+**Access levels by scope:**
+
+|===
+| Modifier | Class | Package | Subclass | Other
+
+| public | ✓ | ✓ | ✓ | ✓
+| protected | ✓ | ✓ | ✓ | ✗
+| default | ✓ | ✓ | ✗ | ✗
+| private | ✓ | ✗ | ✗ | ✗
+|===
+====
+
+.Can we apply a private modifier to a class?
+[%collapsible]
+====
+The `private` modifier can be applied to a nested class (a class defined inside another class). A private nested class is only accessible within the scope of its enclosing outer class
 
 It cannot be applied to a top-level class, because if a top-level class were private no other class could see or used, making it useless
 ====
@@ -232,13 +335,13 @@ It cannot be applied to a top-level class, because if a top-level class were pri
 .How do you explain the term `coupling`?
 [%collapsible]
 ====
-Its the degree of dependecy between different classes or modules. It measures how much one unit of code relies on the internal details of another to function correctly
+It is the degree of dependency between different classes or modules. It measures how much one unit of code relies on the internal details of another to function correctly
 ====
 
 .How do you explain the term `cohesion`?
 [%collapsible]
 ====
-Is the measure of how focused the responsabilities of a single class or module are. A "highly cohesive" class is one where all its methods and attributes are closely related to a single purpose
+It is the measure of how focused the responsibilities of a single class or module are. A "highly cohesive" class is one where all its methods and attributes are closely related to a single purpose
 ====
 
 .What do you mean by `loose coupling`?
@@ -250,30 +353,52 @@ This is a design goal where the classes are minimally dependent on one another. 
 .What do you mean by `tight coupling`?
 [%collapsible]
 ====
-This occurs when classes are highly dependent on each other's specific implementation details. In a tighly coupled system, a change to one class frequently requires a "ripple effect" of changes across many other related classes, making the code harder to reuse and maintain
+This occurs when classes are highly dependent on each other's specific implementation details. In a tightly coupled system, a change to one class frequently requires a "ripple effect" of changes across many other related classes, making the code harder to reuse and maintain
 ====
 
 .What is `abstract class`?
 [%collapsible]
 ====
-Is a class designed to represent a set of common characteristics and behaviors for an entity, serving as a base for other classes to extend
+It is a class designed to represent a set of common characteristics and behaviors for an entity, serving as a base for other classes to extend
 ====
 
 .What is evolution?
 [%collapsible]
 ====
-Refers to the ability to update and expand a codebase over time without breaking existing functionality
+It refers to the ability to update and expand a codebase over time without breaking existing functionality
 ====
 
 .What is an entity?
 [%collapsible]
 ====
-Is the conceptual thing or real-world object that you are trying to represent in your code
+It is the conceptual thing or real-world object that you are trying to represent in your code
 ====
 
-* Can the abstract class contain constructors?
-* Why abstract classes provide constructors even though they are not instantiated?
-* What are concrete methods and abstract methods?
+.Can abstract classes contain constructors?
+[%collapsible]
+====
+Yes. Abstract classes can and should contain constructors. Constructors in abstract classes are used to initialize the state of the parent entity when a concrete subclass is instantiated. Although abstract classes cannot be directly instantiated, their constructors are invoked through the constructor chain when a subclass object is created.
+====
+
+.Why do abstract classes provide constructors even though they are not instantiated?
+[%collapsible]
+====
+Abstract classes provide constructors to:
+
+1. Initialize the state of the parent entity
+2. Enforce initialization of common attributes across all subclasses
+3. Allow code reuse for initialization logic
+4. Ensure that when a subclass is instantiated, the parent portion of the object is properly initialized
+
+When a subclass calls `super()` in its constructor, the abstract class's constructor is executed.
+====
+
+.What are concrete methods and abstract methods?
+[%collapsible]
+====
+* **Abstract methods**: Methods declared in a class or interface without an implementation (using the `abstract` keyword). They define a contract that must be implemented by subclasses.
+* **Concrete methods**: Methods that have a complete implementation. In abstract classes, concrete methods provide default or reusable behavior that all subclasses can use or override.
+====
 
 .Can we declare all the methods of abstract class as a concrete method?
 [%collapsible]
@@ -296,7 +421,7 @@ In contrast static methods use static binding, where the method call is attached
 
 Because abstract methods must be implemented by subclasses and resolved at runtime, they cannot be static.
 
-These constraints ensure that the contract defined by the abstract class can be propertly fulfilled by its descendants.
+These constraints ensure that the contract defined by the abstract class can be properly fulfilled by its descendants.
 ====
 
 .What does it mean `final` in Java?
@@ -346,52 +471,114 @@ Yes, the final modifier can be applied to variables, wich includes reference var
 ====
 When a reference is declared as final, it means that once the variable has been assigned to an object, it cannot be reassigned to point to a different object or memory location.
 
-It is important to distiguish between the reference and the object itself. While a final reference cannot point to a new object, the internal state of the object it points to can still be changed unless the class itself is designed to be immutable.
+It is important to distinguish between the reference and the object itself. While a final reference cannot point to a new object, the internal state of the object it points to can still be changed unless the class itself is designed to be immutable.
 ====
 
-* Can interfaces have a constructor? How it is different than the abstract classes?
+.Can interfaces have constructors?
+[%collapsible]
+====
+No. Interfaces cannot have constructors. Interfaces are contracts that define behavior, not objects to be instantiated. Since interfaces cannot be instantiated directly, they have no need for constructors.
+
+**Difference from abstract classes:**
+
+* Abstract classes can have constructors to initialize inherited state
+* Interfaces cannot have constructors (no state to initialize)
+* When a class implements an interface and extends an abstract class, the abstract class constructor is called through `super()`, but the interface has no role in initialization
+====
 
 .Can we declare an interface with the abstract keyword?
 [%collapsible]
 ====
-Yes, you can declare an interface using the abstract keyword, but it is redundant. All interfaces in java are implicitly abstract, so the compiler treats them the same way whether the keyword is present or not.
+Yes, you can declare an interface using the abstract keyword, but it is redundant. All interfaces in Java are implicitly abstract, so the compiler treats them the same way whether the keyword is present or not.
 ====
 
 .What is the default method in an interface?
 [%collapsible]
 ====
-It is implemented method in interfaces for backward compatibility.
+It is an implemented method in interfaces, introduced in Java 8 for backward compatibility. Default methods allow interfaces to add new methods without breaking existing implementations.
+
+Example:
+[source,java]
+----
+interface MyInterface {
+    default void myDefaultMethod() {
+        // implementation
+    }
+}
+----
+
+Default methods can be overridden by implementing classes.
 ====
 
-* Can an interface have more than one method as default implemented methods?
+.Can an interface have more than one default method?
+[%collapsible]
+====
+Yes. An interface can have multiple default methods. However, if a class implements two interfaces with default methods having the same signature, the implementing class must override that method to resolve the conflict (known as the "diamond problem" with default methods).
+====
 
 .What is polymorphic reference?
 [%collapsible]
 ====
-Its a reference variable that can point to objects of different types at different times, specifically those that share an inheritance or implementation relationship.
+It is a reference variable that can point to objects of different types at different times, specifically those that share an inheritance or implementation relationship.
 
-*How is achieved*
-* Supertype reference, subtype object: You achieve a polymorphic reference by declaring a variable of a subtype, and assigning it an object of a subtype
+**How it is achieved:**
+
+* Supertype reference, subtype object: You achieve a polymorphic reference by declaring a variable of a supertype and assigning it an object of a subtype.
+
+Example:
+[source,java]
+----
+Animal animal = new Dog(); // Dog is a subtype of Animal
+animal = new Cat(); // Cat is also a subtype of Animal
+----
 
 It allows an application to evolve more easily.
 
-This is why is recommended to write code againt a collection interface (like list) rather a concrete implementation (like ArrayList). It allows to swap the underlying implementation later without breaking the rest of the code
+This is why it is recommended to write code against a collection interface (like `List`) rather than a concrete implementation (like `ArrayList`). It allows you to swap the underlying implementation later without breaking the rest of the code.
 ====
 
-.If Object is a cosmic superclass, what is wrong if you refer every object by it?
+.If Object is a cosmic superclass, what is wrong if you refer to every object by it?
 [%collapsible]
 ====
-* Loss of specific behavior: A class is a way of describing an entity by defining its specific state and behavior. If you refer an object as a generic `Object`, you can only access the methods defined in the `java.lang.Object` class, such as toString(), equals(), and hashCode(). You lose access to the unique methods and attributes that define the actual entity you are working with.
+* **Loss of specific behavior**: A class is a way of describing an entity by defining its specific state and behavior. If you refer to an object as a generic `Object`, you can only access the methods defined in the `java.lang.Object` class, such as `toString()`, `equals()`, and `hashCode()`. You lose access to the unique methods and attributes that define the actual entity you are working with.
 
 * Broken "contract": A class is a contract that stablishes the rules for interacting with an entity. By using me most general reference, you are essentially ignoring that contract
 
 In summary, referring to every object as its cosmic superclass discards the specific description and rules, that make that object useful in your application
 ====
 
-* Can we extend more than one class?
-* How do you achieve multiple inheritance in Java?
+.Can we extend more than one class?
+[%collapsible]
+====
+No. Java does not support multiple inheritance for classes. A class can only extend (inherit from) one other class. However, a class can implement multiple interfaces, which provides a way to achieve some benefits of multiple inheritance.
+====
 
-* If your class implements two interfaces and both the interfaces declare similar methods, which method will be invoked? Is it permitted?
+.How do you achieve multiple inheritance in Java?
+[%collapsible]
+====
+Multiple inheritance is achieved in Java through interfaces. Although a class cannot extend multiple classes, it can implement multiple interfaces:
+
+[source,java]
+----
+class MyClass implements Interface1, Interface2, Interface3 {
+    // implementation
+}
+----
+
+Starting from Java 8, interfaces can also have default methods, which further enables a form of multiple inheritance of behavior.
+====
+
+.If your class implements two interfaces and both interfaces declare similar methods, which method will be invoked? Is it permitted?
+[%collapsible]
+====
+If a class implements two interfaces with similar method signatures:
+
+1. If both interfaces have abstract methods, the implementing class must provide a single implementation that satisfies both contracts
+2. If both interfaces have default methods with the same signature (Java 8+), it is a conflict and the class must override the method to resolve the ambiguity
+3. The method body of the class's implementation will be invoked (the actual implementation in the class)
+
+This is the solution to the "diamond problem" in Java.
+====
 
 .What is use of a static variable?
 [%collapsible]
@@ -466,47 +653,259 @@ Is used to interact with the immediate parent class (superclas)
 .Why the super keyword must be located as the first line o the constructor?
 [%collapsible]
 ====
-The `super` keyword must be located on the first line of the constructor to ensure that the parent entity is fully initialized before the child class begins with its own initialization
+The `super` keyword must be located on the first line of the constructor to ensure that the parent entity is fully initialized before the child class begins with its own initialization.
 
 For a subclass to be a valid representative of that entity, the "existing" parent part of the object must be established first
 ====
 
-* Do we have the destructors in Java?
-* Which methods are present in the Object class that can be overridden?
+.Do we have destructors in Java?
+[%collapsible]
+====
+No, Java does not have explicit destructors like C++. Instead, Java uses garbage collection to automatically reclaim memory from objects that are no longer in use. The `finalize()` method (deprecated since Java 9) was the closest equivalent, but it is unreliable and should not be used.
+
+Modern alternative: Use try-with-resources or override `close()` for proper resource cleanup.
+====
+
+.Which methods in the Object class can be overridden?
+[%collapsible]
+====
+The following methods from the `Object` class can be overridden:
+
+1. `toString()`: Returns a string representation of the object
+2. `equals(Object o)`: Defines logical equality
+3. `hashCode()`: Returns a hash code for the object
+4. `clone()`: Creates a copy of the object
+5. `finalize()`: Cleanup before garbage collection (deprecated, should not override)
+
+Methods that **cannot** be overridden:
+
+1. `getClass()`: Returns the runtime class
+2. `notify()`, `notifyAll()`, `wait()`: Related to thread synchronization (used but not overridden)
+====
 
 .What is the `equals` method, and how is it used?
 [%collapsible]
 ====
-Is used to define the logical equality between two objects.
+It is used to define the logical equality between two objects.
 
 It determines if two separate representatives of a class possess the same "state" or attribute values as defined by the class contract
 ====
 
-* Which is a cosmic super class in Java?
+.Which class is a cosmic superclass in Java?
+[%collapsible]
+====
+`java.lang.Object` is the cosmic (universal) superclass in Java. Every class in Java, whether explicitly declared or not, inherits from the `Object` class. It is the root of the class hierarchy and provides fundamental methods like `toString()`, `equals()`, `hashCode()`, `clone()`, `getClass()`, `wait()`, `notify()`, and `notifyAll()`.
+====
 
 .What is the difference between an equal operator (= =) and equals method?
 [%collapsible]
 ====
-* Equal operator (==): This operator compares references. Because object references are stored in the stack while the actual object lives in the heap, using `==` checks if two refernece variables point to the exact same memory address
+* Equal operator (==): This operator compares references. Because object references are stored in the stack while the actual object lives in the heap, using `==` checks if two reference variables point to the exact same memory address
 
 * `equals()` Method: This compares the actual content or state of the objects
 ====
 
-* What is a var argument? Where can it be used?
-* What are the different rules for declaring the var argument method?
-* What is the difference between using the var argument and array as a method argument?
-* What do you mean by method overloading?
+.What is a var argument? Where can it be used?
+[%collapsible]
+====
+Var arguments (varargs) allow a method to accept a variable number of arguments of the same type. Declared using ellipsis (`...`), varargs are converted into an array internally.
 
-* Can we overload a static method?
+Syntax:
+[source,java]
+----
+public void myMethod(String... args) {
+    // args is treated as String[]
+}
+----
 
-* What is method overriding?
-* What are rules of method overriding in Java?
-* Can we override the static method?
-* What is a co-variant return type?
-* Can we change the return type of the overridden method?
-* What is a `marker interface`?
-* What is use of a marker interface?
-* What is typecasting in Java, and which are the different types of typecasting available in Java?
+Varargs can be used in:
+1. Any method parameter position (but only as the last parameter)
+2. Constructors
+3. Custom methods (any method signature)
+
+Multiple varargs in one method are not allowed.
+====
+
+.What are the different rules for declaring the var argument method?
+[%collapsible]
+====
+Rules for declaring varargs:
+
+1. Varargs must be the last parameter in a method signature
+2. Only one varargs parameter is allowed per method
+3. The varargs parameter is treated as an array internally
+4. You can have other parameters before the varargs parameter
+5. When calling a method with varargs, you can pass 0 or more arguments
+====
+
+.What is the difference between using the var argument and array as a method argument?
+[%collapsible]
+====
+|===
+| Varargs | Array
+
+| Accepts 0 or more arguments | Must pass an array object
+| More convenient syntax | Requires creating an array explicitly
+| Automatically converted to array | Array is passed directly
+| Can be mixed with other parameters | Typically the last approach for flexibility
+|===
+
+Example:
+[source,java]
+----
+// Varargs - convenient
+method("arg1", "arg2", "arg3");
+
+// Array - requires explicit array creation
+method(new String[]{"arg1", "arg2", "arg3"});
+----
+====
+
+.What do you mean by method overloading?
+[%collapsible]
+====
+Method overloading is a mechanism that allows a class to have multiple methods with the same name but different parameter lists. The compiler determines which method to call based on the number, type, and order of arguments at compile time (static binding).
+
+Methods must differ in:
+1. Number of parameters
+2. Type of parameters
+3. Order of parameters
+
+Methods cannot overload based on return type alone.
+
+Example:
+[source,java]
+----
+public void print(int a) { }
+public void print(String s) { }
+public void print(int a, String s) { }
+----
+====
+
+.Can we overload a static method?
+[%collapsible]
+====
+Yes, static methods can be overloaded just like instance methods. However, you cannot override a static method. If a subclass defines a static method with the same signature as the parent, it is called method hiding, not overriding.
+
+Example:
+[source,java]
+----
+public static void method(int a) { }
+public static void method(String s) { }
+----
+====
+
+.What is method overriding?
+[%collapsible]
+====
+Method overriding is the ability of a subclass to provide a specific implementation of a method that is already defined in its parent class. The method signature (name, parameters, return type) must be the same. Overriding uses dynamic binding (late binding), meaning the actual method called is determined at runtime based on the object's type.
+====
+
+.What are the rules of method overriding in Java?
+[%collapsible]
+====
+Rules for method overriding:
+
+1. The method name and parameter list must be exactly the same
+2. The return type must be the same or a covariant type (subtype)
+3. The access modifier cannot be more restrictive (can be the same or broader)
+4. Cannot throw a checked exception that is broader than the parent method
+5. The method cannot be `final` in the parent class
+6. The method cannot be `static` (static methods cannot be overridden, only hidden)
+7. Must be an instance method (not static)
+====
+
+.Can we override a static method?
+[%collapsible]
+====
+No, static methods cannot be overridden. However, static methods can be hidden. If a subclass defines a static method with the same signature as the parent, the subclass version hides the parent version. The method called depends on the reference type (compile-time type), not the object type.
+====
+
+.What is a co-variant return type?
+[%collapsible]
+====
+A covariant return type allows an overriding method to return a subtype of the return type declared in the parent class method. This is allowed in Java 5 and later.
+
+Example:
+[source,java]
+----
+class Animal { }
+class Dog extends Animal { }
+
+class Parent {
+    public Animal getAnimal() { return new Animal(); }
+}
+
+class Child extends Parent {
+    @Override
+    public Dog getAnimal() { return new Dog(); }
+}
+----
+
+In this example, `Dog` is a covariant return type of `Animal`.
+====
+
+.Can we change the return type of the overridden method?
+[%collapsible]
+====
+The return type of an overridden method can only be changed to a covariant type (a subtype of the original return type). Changing the return type to an unrelated type will result in a compilation error.
+
+If the original method returns `Object`, the overriding method can return `String`, `Integer`, or any subclass. However, you cannot change `Object` to a primitive type or an unrelated class.
+====
+
+.What is a `marker interface`?
+[%collapsible]
+====
+A marker interface is an interface with no methods or properties. It is used to mark or tag classes that implement it with a specific attribute or capability. Marker interfaces are used to signal to the compiler or runtime that a class possesses a certain property.
+
+Examples:
+1. `Serializable`: Marks objects that can be serialized
+2. `Cloneable`: Marks objects that can be cloned
+
+Marker interfaces are being replaced by annotations in modern Java.
+====
+
+.What is the use of a marker interface?
+[%collapsible]
+====
+Marker interfaces are used to:
+
+1. Tag or categorize classes at runtime
+2. Provide type-checking by implementing an interface
+3. Signal to frameworks (like serialization) that a class supports certain operations
+4. Enable compile-time and runtime checks for specific capabilities
+
+Modern practice often replaces marker interfaces with annotations for better flexibility and readability.
+====
+
+.What is typecasting in Java, and which are the different types of typecasting available in Java?
+[%collapsible]
+====
+Typecasting is the process of converting a variable from one type to another.
+
+**Types of typecasting:**
+
+1. **Widening (Implicit) Casting**: Automatic conversion from a smaller to a larger type (e.g., `int` to `long`, `int` to `double`). No data loss occurs.
+   [source,java]
+   ----
+   int a = 5;
+   long b = a; // Implicit conversion
+   ----
+
+2. **Narrowing (Explicit) Casting**: Manual conversion from a larger to a smaller type. Risk of data loss.
+   [source,java]
+   ----
+   long a = 100;
+   int b = (int) a; // Explicit conversion
+   ----
+
+3. **Reference Typecasting**: Converting between reference types in an inheritance hierarchy.
+   [source,java]
+   ----
+   Animal animal = new Dog(); // Upcasting (implicit)
+   Dog dog = (Dog) animal; // Downcasting (explicit)
+   ----
+====
 
 .What are the types of variables in Java? Also explain their scope.
 [%collapsible]
@@ -526,10 +925,10 @@ It determines if two separate representatives of a class possess the same "state
 Is a block of code used to initialize the instace variables of a class. It is understood as a tool for defining the initial state of an object alongside the constructor
 ====
 
-.Whats the difference between an inilializer block and a constructor?
+.What is the difference between an initializer block and a constructor?
 [%collapsible]
 ====
-you use an initializer block for logic that must run for every instance (or the class itself) without exception, while you use a constructor to provide flexible, parameterized initialization for specific objects.
+You use an initializer block for logic that must run for every instance (or the class itself) without exception, while you use a constructor to provide flexible, parameterized initialization for specific objects.
 ====
 
 .What is difference between a static initializer block and instance initializer block in Java?
@@ -537,19 +936,19 @@ you use an initializer block for logic that must run for every instance (or the 
 ====
 * Static initializer block: Is called only once during the entire application lifecycle, specifically when the class is loaded into memory.
 
-* Instance initializer block: (much like a contructor) Is associated with the creation of individual objects
+* Instance initializer block: (much like a constructor) It is associated with the creation of individual objects
 ====
 
 .Can you explain the concept of wrapper classes in Java?
 [%collapsible]
 ====
-Refers to classes that encapsulate or "wrap" an entity to provide additional functionality, or allow that entity to be used in contexts where its original form is not supported
+It refers to classes that encapsulate or "wrap" an entity to provide additional functionality, or allow that entity to be used in contexts where its original form is not supported
 
-* Auto-boxing and Auto-unboxing: Wrapper classes are the foundation for auto-boxing and auto-unboxing. These processes describe the automatic conversion between primitive types and their corresponding wrapper objects, which is a common scenario in Java development.
+** Auto-boxing and Auto-unboxing: Wrapper classes are the foundation for auto-boxing and auto-unboxing. These processes describe the automatic conversion between primitive types and their corresponding wrapper objects, which is a common scenario in Java development.
 
-* Use in Collections: A primary use case for these classes is enabling the use of collections with primitive types. Since the collection framework is designed to work with objects, wrapper classes allow primitive data to be stored and manipulated within collection structures like Lists or Sets.
+** Use in Collections: A primary use case for these classes is enabling the use of collections with primitive types. Since the collection framework is designed to work with objects, wrapper classes allow primitive data to be stored and manipulated within collection structures like Lists or Sets.
 
-* Servlet Request and Response Wrappers: In the context of web applications, specific wrapper classes like ServletRequestWrapper (including HttpServletRequestWrapper) and ServletResponseWrapper exist. These allow developers to implement custom handlers by adding new methods or overriding existing ones to modify the behavior of standard request and response objects.
+** Servlet Request and Response Wrappers: In the context of web applications, specific wrapper classes like ServletRequestWrapper (including HttpServletRequestWrapper) and ServletResponseWrapper exist. These allow developers to implement custom handlers by adding new methods or overriding existing ones to modify the behavior of standard request and response objects.
 ====
 
 
@@ -565,33 +964,33 @@ Refers to classes that encapsulate or "wrap" an entity to provide additional fun
 ====
 The primary use is to ensure that its state cannot be changed once it has been created. There are several critical reasons to create them:
 
-* Thread safety: Since their state never changes multiple threads can access them simultaneously without the risk of unpredictable results or the need for complex sychronization
+* Thread safety: Since their state never changes, multiple threads can access them simultaneously without the risk of unpredictable results or the need for complex synchronization.
 
-* Collection integrity: The sources highligh that keys used for `Maps` and values used for `Sets` should be ideally be of an immutable type. This ensures that once an boject is placed in a hash-based collection, its hashcode remains constant, preventing the object from beign "lost" within the collection
+* Collection integrity: The sources highlight that keys used for `Maps` and values used for `Sets` should ideally be of an immutable type. This ensures that once an object is placed in a hash-based collection, its hashcode remains constant, preventing the object from being "lost" within the collection.
 ====
 
 .What is an enum to you?
 [%collapsible]
 ====
-An enum is a special "class" that represents a group of constants (unchangeable variables)
+An enum is a special "class" that represents a group of constants (unchangeable variables).
 ====
 
 .Can enum extend any other class?
 [%collapsible]
 ====
-No. All enums in java implicitly extend `java.lang.Enum`. Since java does not support multiple inheritance for classes, an enum cannot extend any other class.
+No. All enums in Java implicitly extend `java.lang.Enum`. Since Java does not support multiple inheritance for classes, an enum cannot extend any other class.
 ====
 
 .Can we write an enum that implements an interface?
 [%collapsible]
 ====
-Yes. enums can implement one or more interfaces, allowing them to provide specific implementations for interface methods.
+Yes. Enums can implement one or more interfaces, allowing them to provide specific implementations for interface methods.
 ====
 
 .Can we declare constructors within enum?
 [%collapsible]
 ====
-Yes. Enums can have constructors to initialize the state of each enum constant
+Yes. Enums can have constructors to initialize the state of each enum constant.
 ====
 
 .Why the constructor of enum is kept as private?
@@ -612,8 +1011,14 @@ No. Enums cannot be instantiated with `new`. The JVM handles the creation of enu
 * `values()`: Return an array containing all the constants in the enum
 * `valueOf(String)`: Returns the enum constant with the specified name
 * `ordinal()`: Returns the position (index) of the constant in the enum declaration
+* `values()`: Returns an array containing all the constants in the enum
+* `valueOf(String)`: Returns the enum constant with the specified name
+* `ordinal()`: Returns the position (index) of the constant in the enum declaration
 * `name()`: Returns the exact name of the constant as a String
 ====
 
-
-* Which package is available as a default package for every Java class?
+.Which package is available as a default package for every Java class?
+[%collapsible]
+====
+The `java.lang` package is available as a default package for every Java class. It is automatically imported by the JVM, allowing you to use common classes like `String`, `Object`, `Integer`, and others without explicitly importing them.
+====

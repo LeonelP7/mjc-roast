@@ -1,0 +1,721 @@
+.What is hibernate?
+[%collapsible]
+====
+Is an open-source Object-Relational Mapping (ORM) framework for Java that acts as a bridge between the object-oriented code and a relational database.
+
+Handles:
+
+* Mananging connection, gerenating SQL queries and converting result sets back into Java objects.
+====
+
+.What is JPA?
+[%collapsible]
+====
+Is a set of rules and guidelines that describes how to manage relational data in Java applications.
+
+Defines annotations (like `@Anotation`, `@Id` or `@Table`) and interfaces (like EntityManager) that you should use, but it doesn't contain the code that talks to the database. It exists as a standart to ensure that no matter which tool you use to hadle the data, the code stays consistent
+====
+
+.What is EntityManager?
+[%collapsible]
+====
+Is an interface used as the central point of contact for managing the state of your data within a single transaction.
+====
+
+.What is JDBC (Java Database Connectivity)?
+[%collapsible]
+====
+is the foundational Java API that allows your application to communicate with a relational database.
+
+It serves as a universal "translator": you write the standard SQL queries in your Java code, JDBC send those commands to the database and brings back the results as a ResultSet
+====
+
+.Whats the difference between Spring and Spring Boot?
+[%collapsible]
+====
+*Spring:* Is the framework for developing Java applications
+
+*Spring Boot:* Is an extension of Spring, designed to make easier and faster the use of Spring
+
+It uses:
+
+* Starters (pre-packaged dependencies)
+
+* Auto-configuration (guessing which beans do you need based on the libraries in your classpath)
+
+* Embedded Server (Allowing you to run your app with a simple jar file without to install an external web server)
+====
+
+.What is Tomcat?
+[%collapsible]
+====
+Is a web server and servlet container, designed to run Java-based web applications
+
+In java ecosystem, while your code contains the logic, it needs an environment that understands how to handle HTTP request, and translate them into something java code can process.
+
+It implements Jakarta Server, and Jakarta Server Pages
+====
+
+.What is Servlet container?
+[%collapsible]
+====
+Is a component of a web server that is responsible for managing the lifecyle of java servlets.
+
+The servlet container provides the environment needed to run Java code in response to an web request
+====
+
+.What is maven?
+[%collapsible]
+====
+Is a build automation, and project management tool.
+
+It also manages the dependencies, and provides a build cycle.
+====
+
+.What is an ORM?
+[%collapsible]
+====
+Is a technique used to convert data between two systems: Object-Oriented Programming and Relational Databases.
+
+It acts as a translator that automatically maps your java objects to databases tables, allowing you to interact with databases using java, instead of writing raw SQL for every operation.
+====
+
+.What is spring data?
+[%collapsible]
+====
+Is a spring project that aims to simplify database access by reducing the amount of boilerplate code you have to write. Allowing you to focus on your business logic instead.
+
+It sits on top of Hibernate and JPA to provide a consistent, interface-based way to interact with your data.
+
+Its most famous feature is the ability to create Repository interfaces by simply extending `JpaRepository`, Spring automatically generates all the CRUD implementation code at runtime.
+
+It manages pagination and sorting out of the box
+
+One of the most impressive "magic" tricks of Spring Data is Query Methods. Instead of writing SQL or JPQL, you can simply define a method name in your interface like findByLastNameAndAge(String name, int age), and Spring Data will parse the method name and automatically generate the correct query logic for you.
+
+It isn't limited to just relational databases either; the "Spring Data" umbrella covers many modules, including Spring Data MongoDB, Spring Data Redis, and Spring Data Cassandra, providing a familiar and consistent programming model regardless of whether you are using a SQL or NoSQL database.
+====
+
+.JDBC → Hibernate → JPA → Spring Data
+[%collapsible]
+====
+1. JDBC (The Manual Foundation)
++
+In the beginning, there was only JDBC. It was revolutionary because it allowed Java to talk to any database, but it was incredibly tedious.
++
+*The Problem:* You had to write hundreds of lines of "boilerplate" code—manually opening connections, handling SQL strings as text, and mapping every single database column to a Java field by hand.
++
+*The Vibe:* Like building a car from scratch using raw metal and rubber.
+
+2. Hibernate (The Automated Engine)
++
+Developers got tired of mapping columns to fields, so Hibernate was born as an ORM (Object-Relational Mapping) tool.
++
+*The Solution:* It allowed you to simply "map" a Java class to a database table. You stopped writing `INSERT INTO...` and started calling `session.save(user)`.
++
+*The Innovation:* It introduced features like the First-Level Cache and Lazy Loading to make database access faster without extra effort.
++
+*The Vibe:* Like buying a pre-assembled engine so you don't have to build the cylinders yourself.
+
+3. JPA (The Universal Standard)
++
+As more ORM tools appeared (like Hibernate, TopLink, and iBatis), the industry realized we needed a Standard. If you wrote code for Hibernate and wanted to switch to another tool, you had to rewrite everything.
++
+*The Solution:* JPA was created as a "specification" (a set of rules). It provided standard annotations like `@Entity` and `@Table`.
++
+*The Innovation:* Hibernate changed its code to follow these rules. Now, your code is "Standard Java," and Hibernate is just the engine running under the hood.
++
+*The Vibe:* Like creating a universal driver's license that works in any car, regardless of the brand.
+
+4. Spring Data (The Ultimate Abstraction)
++
+Even with JPA and Hibernate, you still had to write "DAO" (Data Access Object) classes and repeat the same find, save, and delete logic for every single entity.
++
+*The Solution:* Spring Data sits on top of everything. It says, "If you give me an interface, I will write the implementation for you."
++
+*The Innovation:* It introduced Repositories. You define a method name like `findByEmail`, and Spring Data literally writes the SQL, executes it through JPA/Hibernate, and returns the result via JDBC.
++
+*The Vibe:* Like a self-driving car—you just tell it where to go, and it handles the engine, the transmission, and the road.
+====
+
+.What is DTO and DAO?
+[%collapsible]
+====
+DAO (Data Access Object): Is a pattern used to isolate the business layer from the persistence layer (the db). Its job is to handle all the work of database communication: Executing SQL queries, calling the EntityManager, or using JDBC.
+
+DTO (Data Transfer Object): Is a simple object used to carry data between processes, usually between the Backend (Controller) and the Frontend (Client). Unlike an Entity (that matches your database table) a DTO only contains the specific fields needed for a particular task.
+
+This reduce the number of remote calls (by grouping data) and to hide sensitive database structures.
+====
+
+.What is MVC?
+[%collapsible]
+====
+Is a software architectural pattern used to separate an application intro three main logical components:
+
+* The Model (Data & Logic): The Model represents  the "brain" of the application. It manages the data, database rules and the business logic.
+
+* The View (The user interface): Its job is to display the information provided by the Model in a way that is easy for the user to understand. In a modern Spring Boot setup, the "View" is often a JSON response sent to a React or Angular frontend.
+
+* The Controller: Acts as the "middleman". It intercepts the user's input (like clicking a button), process it (often by calling the Model), and then decides which View to show next. In Spring boot `@RestController` serve this role, mapping specific URLs to the correct Java methods
+====
+
+.What is hypermedia?
+[%collapsible]
+====
+Multimedia with links that allows you to navigate from one piece of  information to another, or action.
+
+The goal is to make APIs self-discoverable and decoupled from the client
+====
+
+.What is HATEOAS (Hypermedia As The Engine Of Application State)?
+[%collapsible]
+====
+The specific REST constraint that uses Hypermedia
+====
+
+.What is architecture?
+[%collapsible]
+====
+Is the blueprint or design of a system: How the application is organized, which components exist, and how those components communicate with each other
+====
+
+.What is infrastructure?
+[%collapsible]
+====
+Refers to the underlaying fuoundation, the hardware and utilities that allows the code to run. If the architecture is the floor plan of the building, infrastructure represents th land it sits on.
+
+Two sides of infrastructure:
+
+* Physical: This involves the actual hardware located in data centers. It includes the physical servers, routers, switches...
+
+* Virtual/Cloud infrastructure: This is the modern standard, where services like AWS, Azure, or Google cloud provide the hardware. Instead of buying a server, you "rent" a virtual one
+====
+
+.Infrastructure vs. Architecture
+[%collapsible]
+====
+Architecture is about the code's structure (How does the Controller talk to the Service?).
+
+Infrastructure is about the code's environment (Where does the Spring Boot JAR file actually sit? How does a user's request physically reach the server?).
+====
+
+.What are architecture Patterns?
+[%collapsible]
+====
+Are strategies that provide reusable solutions to common problems in software design. While Design Pattern (like Singleton or Factory) focuses on how a few classes interact, an Architecure Pattern defines the fundamental structural organization of an entire system, by determining how major components relate and how data flows between them
+
+1. Layered (N-Tier) Architecture
++
+This is the most common pattern, especially for beginners and standard web applications. It organizes code into horizontal layers (Presentation, Business, Persistence, and Database).
++
+The Goal: Separation of concerns. Each layer only speaks to the one immediately below it.
++
+Best for: Small to medium-sized applications where you want a simple, organized structure.
+
+2. Microservices Architecture
++
+In this pattern, the application is split into small, independent services that communicate via APIs (like REST). Each service handles one specific business function (e.g., "Shipping Service," "Inventory Service").
++
+The Goal: Scalability and agility. You can update or restart the "Payment Service" without affecting the rest of the app.
++
+Best for: Large, complex enterprise systems with multiple development teams.
+
+3. Event-Driven Architecture
++
+This pattern relies on a central "Event Bus" or "Message Broker" (like Kafka). Instead of components calling each other directly, they "publish" events (e.g., "OrderPlaced") and other components "subscribe" to them.
++
+The Goal: Asynchronous processing and high decoupling. The "Order" component doesn't need to wait for the "Email" component to finish sending a confirmation.
++
+Best for: Real-time data processing and highly reactive systems.
+
+4. Hexagonal (Ports and Adapters) Architecture
++
+This pattern puts the business logic in the center (the "Core") and surrounds it with "Ports." Outside tools like Databases, APIs, or UIs connect via "Adapters."
++
+The Goal: Technology independence. You can swap your database from MySQL to MongoDB just by changing an Adapter, without ever touching your core business logic.
++
+Best for: Long-term projects where you want to keep your logic safe from changing tech trends.
+
+5. Microkernel (Plugin) Architecture
++
+This consists of a "Core System" that provides minimal functionality and "Plug-in Modules" that add specialized features. Think of your Web Browser or an IDE like VS Code.
++
+The Goal: Extensibility. You can add new features without modifying the core engine.
++
+Best for: Desktop applications or tools that require heavy customization.
+====
+
+.Monolithic architecture
+[%collapsible]
+====
+The entire application (User UI, Database logic, etc) is built as a single unified unit. It's simple to deploy but hard to scale as it grows.
+====
+
+.Microservices architecture
+[%collapsible]
+====
+The application is broken down into small, independent services that talk to each other over the network.
+====
+
+.What are ingeenering principles?
+[%collapsible]
+====
+Are a set of fundamental rules and best practices that guide developers in creating software that is reliable, easy to maintain, and scalable. Arele like philosophies that keep your code from becoming messy or fragile over time
+
+1. SOLID Principles
++
+This is the most famous set of principles in Object-Oriented Programming. It consists of five rules designed to make software designs more understandable and flexible:
++
+S (Single Responsibility): A class should have only one reason to change (it should do one thing well).
++
+O (Open/Closed): Code should be open for extension but closed for modification.
++
+L (Liskov Substitution): You should be able to replace a parent class with a child class without breaking the app.
++
+I (Interface Segregation): Don't force a class to implement methods it doesn't use. Instead having a bunch of methods in a single interfaces that all the classes that extend from it might not need them all, break the interface into smaller ones
++
+D (Dependency Inversion): Depend on abstractions (interfaces), not concrete implementations.
+
+2. DRY (Don't Repeat Yourself)
++
+The DRY principle states that every piece of knowledge or logic must have a single, unambiguous representation within a system. If you find yourself copying and pasting the same code in three different places, you should move that logic into a single shared method or utility class.
++
+The Goal: Reducing bugs. If you need to change a rule, you only have to change it in one place.
+
+3. KISS (Keep It Simple, Stupid)
++
+This principle emphasizes that systems work best if they are kept simple rather than made complicated. Developers often fall into the trap of "over-engineering"—writing complex solutions for simple problems just in case they might need the complexity later.
++
+The Goal: Readability. Simple code is easier to debug and easier for a new teammate to understand.
+
+4. YAGNI (You Ain't Gonna Need It)
++
+Related to KISS, YAGNI suggests that you should never add functionality until it is actually necessary. Don't build a massive "Notification System" if you only need to send one email today.
++
+The Goal: Focus. It prevents you from wasting time on features that might never be used.
+
+5. Separation of Concerns (SoC)
++
+This is the principle that leads to Layered Architecture. It dictates that different parts of your program should handle different responsibilities. For example, your database code shouldn't care how the user's browser looks, and your UI code shouldn't know how to save data.
+====
+
+.What is rabbitMQ?
+[%collapsible]
+====
+Is an open-source message broker that acts as a "middleman" for communication between different applications or services. It uses a protocol called AMQP (Advanced Message Queuing Protocol) to accept messages from a producer, store them in a queque, and then deliver them to a consumer when its ready to process them.
+
+Because RabbitMQ handles the logic of where messages go (using Exchanges) and ensures they aren't lost if a service crashes (using Persistence), it is an essential tool for building reliable, scalable systems. It is particularly popular in Microservices architectures and Event-Driven designs because it handles high volumes of messages and ensures that even if one part of your system is slow or offline, the rest of the application can keep functioning smoothly.
+====
+
+.What is the difference between an API and a message broker?
+[%collapsible]
+====
+The difference is primary how the communication happens
+
+API: Specifically a REST API, represents a direct connection, between two systems. When System A calls System B's API, it waits for a response before moving on. (Syncronous)
+
+Message Broker: Acts as a intermediary. System A (the Producer) sends a message to the broker and then immediately goes back to its own work. The broker stores the message in a Queue until System B (the Consumer) is ready to pick it up. (Asynchronous)
+
+[cols="1,2,2", options="header"]
+|===
+| Feature | API (REST/HTTP) | Message Broker (RabbitMQ/Kafka)
+| Timing
+| Synchronous: Wait for response.
+| Asynchronous: Fire and forget.
+| Availability
+| Both must be online simultaneously.
+| Producer can work even if Consumer is down.
+| Data Flow
+| Point-to-point (Direct).
+| Through a Queue (Indirect).
+| Standard Use
+| Getting data (e.g., "Give me user profile").
+| Triggering tasks (e.g., "Send this email").
+|===
+====
+
+.What is containerization?
+[%collapsible]
+====
+Is a form of aperating system virtualization that allows you to package an application and all its necessary parts, such as libreries, dependencies, and configuration files, into a sigle isolated unit called a container.
+
+Unlike traditional virtualization, where you create an entire virtual machine (VM) with its own guest operating system, containers share the host's operating system kernel. This makes them incredibly lightweight, fast to start, and efficient in terms of resource usage.
+====
+
+.What is a container?
+[%collapsible]
+====
+Is a unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another
+====
+
+.Container vs. Virtual Machine (VM)
+[%collapsible]
+====
+The biggest technical difference is that a Container is much more "selfish" with resources than a VM:
+
+Virtual Machines include a full copy of an operating system (Windows or Linux), which takes up gigabytes of space and minutes to boot.
+
+Containers share the host's operating system kernel and only pack the application-level files. This makes them megabytes in size and allows them to start in milliseconds.
+====
+
+.What is an image?
+[%collapsible]
+====
+Is a lightweight, standalone, executable package that contains everything needed to run a piece of software
+====
+
+.What is Dockerfile?
+[%collapsible]
+====
+A text file containing the list of commands needed to assemble an image. Docker uses it to create a reproducible environment
+
+# Step 1: Use a Java Runtime as the base
+FROM eclipse-temurin:17-jre-alpine
+
+# Step 2: Set the working directory
+WORKDIR /app
+
+# Step 3: Copy the JAR file from your target folder to the image
+COPY target/my-application-1.0.jar app.jar
+
+# Step 4: Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
+====
+
+.What is docker?
+[%collapsible]
+====
+Docker is a tool that helps developers to build, share and run applications by using contsiners. Providing the engine and the ecosystem needed to turn your code into a portable unit, the container.
+====
+
+.What is Inversion of Control (IoC)?
+[%collapsible]
+====
+Is a software engineering principle, is the philosophy of shifting the responsability to handle dependencies from the developer to the system.
+
+It handles:
+
+Object Creation: Instead of you writing new UserService(), the framework creates the instance.
+
+Lifecycle Management: The framework decides when an object is born (instantiated) and when it dies (garbage collected).
+
+Flow of Execution: In a console app, you write main() and call every method. In a Spring Web app, you just write a method with @GetMapping, and Spring "finds" and runs it when a user visits that URL.
+====
+
+.The IoC container
+[%collapsible]
+====
+In Spring, the "Studio" that manages everything is called the IoC Container. It is the environment that:
+
+Scans your code for components (using @Component, @Service, etc.).
+
+Instantiates them.
+
+Wires them together (Dependency Injection).
+
+Manages their entire life inside the application.
+====
+
+.What is dependency injection?
+[%collapsible]
+====
+Is a design pattern used to implement Inversion of Control (IoC). In simple term it is a technique where an object does not create the other object it relies on (its dependencies). Instead those dependencies are "injected" into it.
+
+Three Ways to Inject
+
+In Spring, there are three primary ways to perform this injection:
+
+Constructor Injection (Best Practice): Dependencies are provided through the class constructor. This ensures the object is never created in an "incomplete" state.
+
+Setter Injection: Dependencies are provided through setter methods after the object is created.
+
+Field Injection: Dependencies are injected directly into fields (usually via the @Autowired annotation). While easy to write, this is generally discouraged because it makes testing harder.
+====
+
+.What is @Autowired?
+[%collapsible]
+====
+Is a Spring annotation, used to perfrom Dependency Injection automatically. It tells Spring IoC (Inversion of Control) Container: "Find a bean that matches this data type and plug it in here for me"
+
+When your Spring application starts up, it performs a "component scan" to find all the classes marked with annotations like @Service, @Repository, or @Component. Once it has created these objects (called Beans), it looks for the @Autowired annotation to see which beans need to be injected into others.
+====
+
+.What is @Scope?
+[%collapsible]
+====
+Is an annotation used to define the lifecycle and visibility of a bean. By default Spring treats every bean as a Singleton, meaning it creates only one instace for the entire application. `@Scope` allows you to change that behavior if you need multiple instances or special handling for different user sessions
+
+Spring Bean Scopes
+
+Spring provides several scopes, but the first two are the most common in standard applications:
+
+[cols="1,3", options="header"]
+
+|===
+| Scope | Description
+
+| *Singleton* (Default)
+
+| Only one instance is created per Spring IoC container. Everyone who asks for this bean gets the exact same object.
+
+| *Prototype*
+| A new instance is created every single time the bean is requested from the container.
+
+
+| *Request*
+| (Web only) A new instance is created for every single HTTP request. The bean dies when the request is finished.
+
+| *Session*
+
+| (Web only) One instance is created per user session. The bean lives as long as the user stays logged in or the session is active.
+
+| *Application*
+| (Web only) One instance is created for the lifecycle of the ServletContext.
+|===
+====
+
+.What is @Configuration?
+[%collapsible]
+====
+Is a class-level annotation that indicates that a class is a source of bean definitions. It acts a modern alternative to the old XML configuration files.
+
+While annotations like @Service or @Component are great for classes you've written yourself, you often need to use third-party libraries (like RabbitMQ, Security, or Database drivers). Since you can't go into their code and add a @Component tag, you use a @Configuration class to manually instantiate and "gift" those objects to the Spring container.
+====
+
+.Explain CI/CD
+[%collapsible]
+====
+Continuous integration and Continuous Delivery (or Continuous Deployment). It is a set of practices and tools designed to automate the process of getting the code from a developer's pc into a live production environment
+
+Continuous Intergration (CI):
+Focuses on whenever a developer pushes code to a share repository, integrate it to the rest of the code, but first goes through:
+
+* Build: The system automatically compiles the code
+* Test: Automated unit testing and integration test run immediately
+* Goal: To catch bugs or code conflicts as soo they are introduced
+
+Continuous Delivery (CD)
+
+Once the code passes all tests in the CI phase, Continuous Delivery ensures that the application is always in a "ready-to-ship" state. Its about preparing the changes for release
+
+* Automated Release: The code is automatically packaged (often into a Docker Image) and moved to a "Staging" or "UAT" (User Acceptance Testing) environment.
+
+* The "Button": In Continuous Delivery, there is still a human element. A manager or lead developer usually clicks a "Deploy" button to push the code into the final Production environment.
+
+Continuous Deployment (The other CD)
+
+This is the most advanced version. In Continuous Deployment, there is no "human button."
+
+* Fully Automated: If the code passes all the automated tests in the pipeline, it is automatically pushed to the live production servers without any manual intervention.
+
+* Goal: To move from "Idea" to "Live Feature" in minutes. Companies like Netflix or Amazon use this to deploy thousands of times per day.
+====
+
+.What is unit testing?
+[%collapsible]
+====
+Is a process where the smallest testable parts of an application are individually and independently checked for proper operatoin.
+
+Usually a unit is a single method.
+====
+
+.What is integration testing?
+[%collapsible]
+====
+Is the process where individual units or components are combined and tested as group, it focuses on the communication and data flow.
+====
+
+.What is end-to-end test?
+[%collapsible]
+====
+Is the methodology used to test a software product from start to finish to ensure the entire system flow behaves as expected.
+
+Key components:
+
+* The frontend
+
+* The backend
+
+* The database
+
+* Third-Party integrations
+
+Common tools:
+
+* Selenium
+====
+
+.Describe TDD.
+[%collapsible]
+====
+Is a software development process where you write the test before the actual code. The process follows a cycle called Red-Green-Refactor loop
+
+The Red-Green-Refactor Cycle
+
+This three-step process is the heartbeat of TDD:
+
+🔴 RED (Write a failing test): You write a small test for a specific piece of functionality that doesn't exist yet. When you run the test, it must fail (usually because the class or method hasn't even been created).
+
+🟢 GREEN (Make it pass): You write the absolute minimum amount of code required to make that test pass. At this stage, it doesn't matter if the code is "ugly" or inefficient; the only goal is to see a green checkmark.
+
+🔵 REFACTOR (Clean it up): Now that you have a safety net (the passing test), you clean up the code. You remove duplication, improve naming, and optimize performance. You run the test again to ensure your "cleaning" didn't break the logic.
+
+
+Reduced Debugging: Since you are writing tests in tiny increments, if a test fails, you know exactly which 3 lines of code caused the problem.
+
+Living Documentation: Your tests describe exactly what the system is supposed to do. A new developer can read the tests to understand the business logic.
+
+Simplified Design: TDD naturally pushes you toward Loose Coupling and Dependency Injection, because tightly coupled code is very difficult to test in small units.
+
+Confidence to Change: When you have a massive suite of TDD-created tests, you can refactor or upgrade libraries (like moving from Spring Boot 2 to 3) with the confidence that you'll catch any regressions immediately
+====
+
+.What is cache?
+[%collapsible]
+====
+It is a high-speed data storage that acts as a shortchut. Insteand of going all the way to the source like a database every time you need information, you keep a copy of the most frequently used data in a place that is much easier and faster to reach.
+====
+
+.What is a functional interface?
+[%collapsible]
+====
+
+====
+
+.What do you know about inputStream and outputStream?
+[%collapsible]
+====
+
+====
+
+.XML and JSON: the difference between them
+[%collapsible]
+====
+
+====
+
+.Bean scope
+[%collapsible]
+====
+
+====
+
+.Bean lifecycle
+[%collapsible]
+====
+
+====
+
+.What is the function of the controller?
+[%collapsible]
+====
+
+====
+
+.Difference between Set and Map?
+[%collapsible]
+====
+A Set: Is a collection of individual, unique items
+
+A Map: is a collection of key-value pairs used for lookups
+
+Common Implementations
+
+Both structures come in different "flavors" depending on whether you care about the order of the items:
+
+Hash (HashSet / HashMap): The fastest version. It uses a hash table, so the order of items is completely random.
+
+Tree (TreeSet / TreeMap): Keeps the items in their "natural order" (e.g., alphabetical or numerical), but is slightly slower.
+
+Linked (LinkedHashSet / LinkedHashMap): Remembers the order in which you inserted the items.
+====
+
+.Difference between HashSet and HashMap
+[%collapsible]
+====
+The Core Structure
+
+HashMap: Implements the Map interface. It stores data in pairs (Key→Value). You use the key to find the value.
+
+HashSet: Implements the Set interface. It stores only individual objects. Its main job is to ensure no duplicates exist in your collection.
+====
+
+.Difference between ArrayList and LinkedList
+[%collapsible]
+====
+1. ArrayList (The Dynamic Array)
++
+An ArrayList uses a standard array to store elements. When you create one, it reserves a contiguous block of memory.
++
+Accessing Data: Since it uses an array, it knows exactly where each element is located by its index. This makes looking up an item (O(1)) incredibly fast.
++
+Resizing: If you fill it up, the ArrayList has to create a new, larger array and copy all the old elements over.
++
+Shifting: If you delete an item from the middle, every item after it must slide over to fill the gap, which is slow (O(n)).
+
+2. LinkedList (The Chain)
++
+A LinkedList stores elements as Nodes. Each node contains the data and a "pointer" (a reference) to the next and previous nodes in the list.
++
+Accessing Data: It doesn't know where the 50th item is. It has to start at the first node and "walk" the chain until it reaches the 50th (O(n)), which is slow.
++
+Insertion/Deletion: If you want to add an item to the middle, you don't have to move anything. You simply break two "links" in the chain and point them to your new node. This is very fast (O(1)) once you are at the correct location.
++
+Memory: It uses more memory than an ArrayList because it has to store the addresses of the neighboring nodes for every single element.
+====
+
+.Explain JVM, JRE, and JDK
+[%collapsible]
+====
+
+[cols="1,2,2,2", options="header"]
+
+|===
+| Feature | JVM | JRE | JDK
+
+| *Full Form*
+
+| Java Virtual Machine
+| Java Runtime Environment
+| Java Development Kit
+
+
+| *Primary Goal*
+| Executes Bytecode.
+| Provides environment to run apps.
+
+| Provides tools to develop apps.
+
+| *Contains*
+| Execution Engine only.
+
+| JVM + Libraries.
+| JRE + Development Tools.
+
+| *Platform?*
+
+| Platform Dependent.
+| Platform Dependent.
+| Platform Dependent.
+|===
+
+====
+
+.What are the parts of a try catch block?
+[%collapsible]
+====
+
+====
+
+.What is application.properties?
+[%collapsible]
+====
+
+====
+
+.What is CommandLineRunner?
+[%collapsible]
+====
+
+====
