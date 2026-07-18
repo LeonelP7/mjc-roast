@@ -56,6 +56,7 @@
 * Which Queue implements Producer-Consumer pattern?
 * Explain difference between Blocking Queue and Transfer Queue?
 * Which Queue is capacity bounded to allows only the specified number of elements in Queue? What happens if you try to put more than its capacity.
+* Why arrayDeque works as a stack?
 
 === Maps
 * How Map is different from other collections?
@@ -64,11 +65,11 @@
 * How HashMap is able to provide constant-time performance for get and put operations?
 * What is the difference between HashMap and LinkedHashMap?
 * If insertion order is to be maintained, which one would you use: LinkedHashMap or HashSet ? Why?
-* What is `WeakHashMap`?
+* What is `WeakHashMap`? X
 * When you want to maintain ordering of key, which Map class would you use?
 * Which Map class would you use to access it in both ascending and descending order?
-* Which Map implement is optimized for thread safety?
-* How does ConcurrentHashMap implements scalability, still maintaining a good performance?
+* Which Map implement is optimized for thread safety? X
+* How does ConcurrentHashMap implements scalability, still maintaining a good performance? X
 * Why the key used for Map and the value used for Set should be of immutable type?
 * What are the disadvantages of exposing internal collection object to the caller?
 * Which collection is best if you want to traverse the collection in sorted order?
@@ -116,15 +117,13 @@
 * Can you modify collection structure while iterating using for-each loop?
 * Can you modify a collection element value while iterating using for-each loop?
 * What are the limitations with for-each loop, with respect to navigation direction?
-* What is difference between for-each loop and Iterator, with respect to navigation
-* direction?
+* What is difference between for-each loop and Iterator, with respect to navigation direction?
 * Can you modify collection structure while iterating using an Iterator?Can you modify a collection element value while iterating using an Iterator?
 * Between for-each loop and for loop, which one would you prefer? Why?
 * Why Iterators are considered more thread safe?
 * Explain the concept of providing Data Independent Access to collection?
-* How can you design your class to provide Data Independent Access to the collections
-* that are internally used in your class?
-* What is the meaning of term fail-fast in context of collection iteration?
+* How can you design your class to provide Data Independent Access to the collections that are internally used in your class?
+* What is the meaning of term fail-fast and fail-safe in context of collection iteration?
 * What is the benefit of a fail-fast iterator?
 * What are fail safe iterator?
 

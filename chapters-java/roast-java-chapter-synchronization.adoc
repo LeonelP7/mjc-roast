@@ -9,16 +9,16 @@
 * Does `parallel` processing require multiple threads?
 
 When an application is concurrent but not parallel?::
-When application processes multiple operations simultaneously without dividing these operations further into smaller tasks.
+Single core — multiple tasks making progress through context switching, but never truly simultaneously..
 
 When an application is parallel but not concurrent?::
-When application processes one operation dividing the operation into smaller tasks that are processed in parallel.
+This is actually theoretically impossible — parallelism implies multiple tasks running simultaneously, which by definition is concurrency. This scenario doesn't really exist.
 
 When an application is neither concurrent not parallel?::
-When application processes only one operation without dividing the operation into smaller tasks.
+Single threaded, sequential execution — one task at a time, no switching, no simultaneity.
 
 When an application is both concurrent and parallel?::
-When application processes multiple operations simultaneously and also dividing these operations further into smaller tasks that are processed in parallel.
+Multi-core system with multiple threads — tasks run truly simultaneously across cores, with context switching handling any excess tasks beyond the core count.
 
 * Explain `race condition` in multi-threading?
 * What is `critical section`?

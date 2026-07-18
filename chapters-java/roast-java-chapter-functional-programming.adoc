@@ -5,7 +5,7 @@
 * What is the difference between normal and functional interfaces in Java?
 * What is `Predicate` interface?
 * What is `Supplier` interface?
-* What is `Comsumer` interface?
+* What is `Consumer` interface?
 * What is `Function` interface?
 * What is Lambda Expression?
 * How is Lambda Expression and Anonymous class related?
@@ -31,6 +31,9 @@
 * What does `peek()` method do? When to use it?
 * What is the difference between `flatMap()` and `map()`?
 * What are  isParallel`, 'parallel`, 'sequential' methods?
+* What is collector?
+* What is `java.util.stream.Collectors`?
+* What is inside `java.util.function` package?
 
 
 .What are techniques to create the stream?::
@@ -47,10 +50,6 @@
 * endless stream via `Stream.iterate`: `Stream.iterate(initial_condition, generate_expressions)`
 * endless stream via `Stream.generate`: `Stream.generate(expression)`
 * stream of primitives: `IntStream.range(from, to)`, `LongStream.rangeCosed(from, to`)
-* What is collector?
-* What is `java.util.stream.Collectors`?
-* What is inside `java.util.function` package?
-
 ====
 
 .What is the purpose of methods `forEach` and `forEachOrdered`?

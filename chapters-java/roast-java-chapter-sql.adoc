@@ -50,3 +50,4 @@
 * What propagation types do you know?
 * How are indexes represented inside the database?
 * What are the RDBS `triggers`? Where can they be used?
+* What is CAP?

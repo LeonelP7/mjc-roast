@@ -5,13 +5,13 @@
 * What is a `process`?
 * What is the difference between a thread and a process?
 * What is the difference between a program and a process?
-* Explain `context switching` of thread?
-* What is `parallel processing`?
-* What is `multi-threading`?
+* Explain `context switching` of thread? -
+* What is `parallel processing`? -
+* What is `multi-threading`? 
 * How `parallel processing` and `multi-threading` related?
 * What is `deadlock`?
 * What is a `user thread`?
-* What is `thread local storage`? What are the things would you store with thread local storage?
+* What is `thread local storage`? What are the things would you store with thread local storage? -
 * Do threads share stack memory?
 * Describe different stages of thread lifecycle?
 * What is difference between `blocked` state and `waiting` state?
@@ -34,6 +34,7 @@
 * Can you throw checked exception from Runnable interface?
 * Why Runnable and Callable interfaces are called Functional Interface?
 * Which of the Interface returns result: Runnable or Callable?
+
 * What is `Daemon thread`?
 * What is `user thread`? What is `main thread`?
 * Can a program exit if Daemon thread is still running?
@@ -44,6 +45,7 @@
 * What is Java main thread: a user thread or a Daemon thread?
 * When you create a new thread on the main thread, what’s the type of thread created: daemon or user?
 * For what type of jobs should you use Daemon thread?
+
 * What is `Race condition`?
 * What is `Immutable Object`?
 * How immutable objects help preventing race condition?
@@ -55,7 +57,7 @@
 * How a thread pool reduces the overhead of thread creation?
 * How a thread pool helps to prevent application from hanging or crashing?
 * How does thread pool enables loosely coupled design?
-* What is `fixed thread pool` and how we can create it?
+* What is `fixed thread pool` and how we can create it? -
 
 
 === PRACTICAL TASKS: Threading
