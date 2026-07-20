@@ -231,13 +231,48 @@ The most significant is the over-fetching/under-fetching problem, where clients 
 <details>
 <summary>What is a Servlet?</summary>
 
-A class that lives inside a web container (like Tomcat). Its job:
+A Java class that implements the `Servlet` interface, designed to handle requests and generate responses within a web container, acting as the entry point where an incomming HTTP request lands inside your Java code, in a form the container already parsed for you. lives inside a web container (like Tomcat). Its job:
 
 1. Receive an HTTP request.
 2. Process some logic (e.g. read from a database).
 3. Generate an HTTP response (HTML or JSON).
 
 In old-style Java web apps, you had to write a separate servlet per page/action (`LoginServlet`, `RegisterServlet`...), which became hard to manage - this is the problem the DispatcherServlet solves.
+
+When working with `@RestController`
+
+The flow is:
+Web Container (Tomcat)
+   ↓ receives raw HTTP request
+DispatcherServlet (the ONE Servlet — implements HttpServlet)
+   ↓ looks at the URI + method, asks "which controller handles this?"
+   ↓ (uses a HandlerMapping internally to figure this out)
+Your @RestController method
+   ↓ runs your business logic, returns data
+DispatcherServlet
+   ↓ converts your return value into JSON (via HttpMessageConverter)
+   ↓ writes it to the response
+Web Container
+   ↓ sends the HTTP response back to the client
+
+</details>
+
+<details>
+<summary>What is a Web Container?</summary>
+
+A web container is the runtime enviroment that manages servlets - it's the piece of software that actually runs your web application inside a server. Examples: Tomcat, Jetty, Undertow
+
+Its responsabilities:
+
+* Lifecycle management - creates, initializes and destroys servlets instances (calls `init()`, `service()`, `destroy()` on them)
+
+* Request handling - listens on a port, accepts incoming HTTP connections, parses raw HTTP requests into Java objects (`HttpServletRequest`), and routes each one to the right servlet.
+
+* Response building - takes what your servlet produces and turns it into a valid HTTP response (`HttpServletResponse`) sent back over the socket.
+
+* Concurrency - manages thread pool so multiple requests can be handled at once without you writting any threading code.
+
+* Security & session management - handles things like sessions ID, cookies and basic auth enforcement, if configured.
 
 </details>
 
@@ -252,6 +287,8 @@ In Spring Boot, auto-configuration detects you're building a web app and registe
 
 <details>
 <summary>What's the difference between @Controller and @RestController?</summary>
+
+`@RestController` is `@Controller` with `@ResponseBody` applied to every method by default - so instead of resolving the return value to a view template, the DispatcherServlet writes it directly to the response body as data, usually JSON.
 
 | @Controller | @RestController |
 |---|---|

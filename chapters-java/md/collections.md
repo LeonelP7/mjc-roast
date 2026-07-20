@@ -3,7 +3,7 @@
 <details>
 <summary>Explain collections?</summary>
 
-A collection in Java is an object that grooups multiple elements into a single unit. The Java collection Framework (JCF) is a unified architecture introduced in Java 2 that provides a set of interfaces, implementations and algorithms to store, retrieve, and manipulate data as a group
+A collection in Java is an object that groups multiple elements into a single unit. The Java collection Framework (JCF) is a unified architecture introduced in Java 2 that provides a set of interfaces, implementations and algorithms to store, retrieve, and manipulate data as a group
 
 | Interface | Common Implementations | Characteristic |
 | :--- | :--- | :--- |
@@ -579,7 +579,7 @@ Use `LinkedList` when you need frequent insertions or deletions in the middle of
 <details>
 <summary>Between ArrayList and LinkedList, which one would you prefer for frequent random access? Why?</summary>
 
-`ArrayList` because it works with a contiguous array in memory so the JVM can jump directly to any position in `O(n)`
+`ArrayList` because it works with a contiguous array in memory so the JVM can jump directly to any position in `O(1)`
 
 </details>
 
